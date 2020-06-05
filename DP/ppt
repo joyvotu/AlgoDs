@@ -1,0 +1,499 @@
+\documentclass{beamer}
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+
+
+\usepackage{graphicx}
+\mode<presentation>
+{
+  \usetheme{Warsaw}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{beaver} % or try albatross, beaver, crane, ...
+  \usefonttheme{default}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+  \setbeamertemplate{itemize items}{>>}
+  \setbeamertemplate{itemize subitem}[square]
+\setbeamertemplate{itemize subsubitem}[ball]
+}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\title[Towards Measuring Anonymity]{Towards Measuring Anonymity}
+\subtitle{Claudia Diaz, Stefaan Seys, Joris Claessens, and Bart Preneel}
+\author{Joy Brahma}
+\institute{MTIS2019-05}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+\begin{frame}
+\begin{itemize}
+  \item {Contents}
+  \begin{itemize}
+     \item Introduction
+     \item Entropy
+     \item Previous Works
+     \item Outline
+     \item Model
+     \item Degree of anonymity
+     \item Examples:
+        \begin{itemize}
+            \item Re-mailer
+            \item Crowds
+            \item Onion Routing
+        \end{itemize}
+    \item Extension and alternative Solution
+    \item Conclusions and Future work
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Introduction}
+\begin{block}{Anonymity}
+Anonymity is the state of being not identifiable within a set of subjects, the anonymity set
+\end{block}
+\begin{itemize}
+    \item Connection Anonymity
+    \begin{itemize}
+        \item Hiding the identities of source and destination during the actual data transfer.
+    \end{itemize}
+\end{itemize}
+\begin{itemize}
+    \item Data Anonymity
+    \begin{itemize}
+        \item Filtering any identifying information out of the data , that is exchanged in a particular application.
+    \end{itemize}
+\end{itemize}
+\begin{itemize}
+    \item We are interested in connection Anonymity in this scope for senders only.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Abstract}
+\begin{itemize}
+    \item Model to quantify degree of anonymity.
+    \vspace{2pt}
+    \item This degree is based on the probabilities assigned to the users, by the attacker to be the originator of the message.
+    \vspace{2pt}
+    \item Useful for measuring the amount of information an at- tacker gets with a particular attack and for comparing different systems amongst each other.
+    \vspace{2pt}
+    \item The model is based on \emph{Shannon’s} definition of entropy.
+\end{itemize}
+\end{frame}
+
+
+\section{Entropy}
+
+\subsection{Definition of Entropy}
+
+\begin{frame}{Entropy:}
+
+\begin{itemize}
+\item  {\textbf{Definition of Entropy:}}
+\emph{Given a discrete random variable, X, that can take N possible values with probability greater than zero, ($p_1 \ldots p_n$), the entropy of X is defined as:}
+    \newline
+    \[\text{H}(X) = -\sum_{i=1}^{n} p_i.\log_{2}p_i\]
+    \begin{itemize}
+        \item Measures the \emph{uncertainty} of a random variable.
+        \vspace{2pt}
+        \item Measures the \emph{information} required on the average to describe the random variable.
+        \vspace{2pt}
+
+        \item The more equally distributed, the more information \emph{ (greater H(X))}; the closer to a deterministic distribution the
+        less information \emph{smaller H(X))}.
+        \vspace{2pt}
+    \end{itemize}
+
+
+\end{itemize}
+\end{frame}
+
+\section{Previous Related Works}
+\begin{frame}{Previous Works}
+\begin{itemize}
+    \begin{itemize}
+        \item Reiter and Rubin defined the degree of anonymity as 1 $-$ p, where p is the probability assigned to a particular user by the attacker.
+
+    \end{itemize}
+    \vspace{5pt}
+    \begin{itemize}
+        \item Berthold \emph{et al.} defined the degree of anonymity as $A = log_2(N)$, where N is the number of users of the system.
+
+    \end{itemize}
+    \vspace{5pt}
+    \begin{itemize}
+        \item Serjantov and Danezis proposed an independent model using information theory but their system doesn't normalize the degree.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{Model}
+\subsection{System Model}
+\begin{frame}{Entities}
+\begin{itemize}
+    \begin{itemize}
+        \item \textbf{Senders:} These are users who have the ability to send messages to recipients.
+        \vspace{8pt}
+        \item \textbf{Recipients:} These are the entities that receive the messages from the senders.
+        \begin{itemize}
+            \item \textbf{Active} if they send back answers to the senders.
+            \item \textbf{Passive} if they do not react to the received message.
+        \end{itemize}
+        \vspace{8pt}
+        \item \textbf{Mixes:} These are nodes that are typically present in solutions for anonymous connections. They take messages as input, and output them.
+        \vspace{8pt}
+        \item \textbf{Anonymity set:} The senders are grouped into this set.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+
+\subsection{Attack Model}
+\begin{frame}{Attack Model}
+\begin{itemize}
+    \begin{itemize}
+        \item \textbf{Internal-External:} An internal attacker controls one or several entities that are part of the system. An external attacker can only compromise communication channels.
+        \vspace{8pt}
+        \item \textbf{Passive-Active:} A passive attacker only listens to the communication or reads internal information; an active attacker is able to add, remove and modify messages or adapt internal information.
+        \vspace{8pt}
+        \item \textbf{Local-Global:} A global attacker has access to the whole communication system, while a local attacker can only control part of the resources.
+
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsection{Assumptions}
+\begin{frame}{Assumptions (1)}
+\begin{itemize}
+    \begin{itemize}
+        \item The attacker tries to find out the sender of a particular message.
+        \vspace{8pt}
+        \item The attacker knows the number of users in the system (N).
+        \vspace{8pt}
+        \item We are only only in \emph{sender anonymity}.
+        \vspace{8pt}
+
+        \item The \emph{anonymity set} only contains honest users.
+        \vspace{8pt}
+        \item All users send in average same number of messages.
+        \vspace{8pt}
+        \item The attacker has no prior information for the senders in anonymity set.
+
+
+    \end{itemize}
+\end{itemize}
+\end{frame}
+\begin{frame}{Assumptions (2)}
+\begin{itemize}
+    \begin{itemize}
+        \item The users send messages which follow a Poisson Distribution over time.
+        \vspace{8pt}
+        \item After observing the system, an attacker will assign to each user a probability of being the sender.
+        \vspace{8pt}
+        \item  In optimal situation all honest users are equally probable as being the originator of the message.
+        \vspace{8pt}
+        \item Users controlled by the attacker are not considered as part of the anonymity set, even if they are not aware of this control.
+        \vspace{8pt}
+        \item  The size of the anonymity set is used to calculate the distribution of probabilities, given that the sum of all probabilities must be 1.
+
+
+
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{Degree of Anonymity}
+\subsection{Definitions}
+\begin{frame}{Degree of Anonymity (1)}
+    \begin{itemize}
+        \begin{itemize}
+            \item H(X) is the entropy of system after attack.
+            For each sender belonging to the senders set of size N, the attacker assigns a probability pi. H(X) can be calculated as:
+            \[H(X) = -\sum_{i=1}^{N}p_i\log_{2}p_i\]
+            \vspace{6pt}
+            \item $H_M$ is the maximum achievable entropy for a system of N users.
+            \[H_M = \log_{2}{(N)}\]
+            \vspace{6pt}
+            \item Note that   \hspace{5pt}
+            $H(X) $\leqslant$ H_M$
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+\subsection{Degree Calculation}
+\begin{frame}{Degree of Anonymity (2)}
+\begin{itemize}
+    \begin{itemsize}
+    \item The information the attacker has learned with the attack can be expressed as
+    \[H_M-H(X)\]
+    \vspace{4pt}
+    \item We divide by $H_M$ to normalize the value. We then define the \textbf {degree of anonymity} provided by the system as:
+    \[d =  \frac{1-(H_M-H(X))}{H_M}\]
+    \vspace{1pt}
+    \[d = \frac{H(X)}{H_M}\]
+    \end{itemsize}
+\end{itemize}
+\end{frame}
+\subsection{Remarks}
+\begin{frame}{Degree of Anonymity (3)}
+\begin{itemize}
+    \begin{itemize}
+        \item Degree is independent from the number of users.
+        \[0 \leqslant d \leqslant 1\]
+
+        \item If in a particular system a user or a small group of users are shown as originators with a high probability with respect to the others, this system is not providing a high degree of anonymity.
+        \vspace{5pt}
+        \item Any system with equiprobable distribution will provide a degree of anonymity of one, therefore a system with two senders will have d = 1 if both of them are assigned probability $1/2$.
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+\section{Examples}
+\subsection{Re-mailer}
+\begin{frame}{Mix based Email (1)}
+\begin{figure}
+  \includegraphics[width=\linewidth]{images/mix.png}
+  \caption{A simple example of mix based email}
+  \label{Figure 1:}
+  \begin{itemize}
+      \item The attacker wants to find out which of the senders sent an email to this particular recipient.
+  \end{itemize}
+\end{figure}
+
+\end{frame}
+
+\subsection{Attack 1}
+\begin{frame}{Mix based Email (2)}
+\begin{block}{Aim}
+The aim of this example is to give an idea on the values of the degree of anonymity for different distributions of probabilities.
+\end{block}
+\begin{itemize}
+    \begin{itemize}
+        \item Global, active, external attacker.
+        \item He controls (Blocks messages) 8 users, so anonymity set is reduced to 2.
+        \item Maximum entropy of this system
+        \[H_M = \log_{2}{(2)} = 1\]
+        \item The probability assigned to user 1 is p, and user 2 is (1-p).
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Mix based Email (3)}
+\begin{column}{.5\linewidth}
+\begin{figure}
+  \includegraphics[width=\linewidth]{images/graph1.png}
+   \caption{variation of d with p}
+   \label{Figure 2:}
+\end{figure}
+\end{column}
+\begin{column}{.5\linewidth}
+\begin{itemize}
+    \item We see that d reaches the maximum value (d = 1) when both users are equiprobable (p = 1/2).
+    \vspace{2pt}
+    \item The minimum level (d = 0) is reached when the attacker can assign probability one to one of the users (p = 0 or p = 1).
+\end{itemize}
+\end{column}
+\end{frame}
+
+\subsection{Attack 2}
+\begin{frame}{Mix based Email - Passive attack (1)}
+\begin{itemize}
+    \begin{itemize}
+        \item Passive, global, external attacker.
+        \item Size of anonymity set is 10.
+        \item Max entropy of the system:
+        \[H_M = \log_{2}{(10)}\]
+        \item After the attack the attacker observed 2 groups.
+        \[p_i = \frac{p}{3} \text{\space for i = 1, 2, 3}\]
+        \[p_i = \frac{(i-p)}{7} \text{\space for i } = 4 , 5 , \ldots, 10\]
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Mix based Email - Passive attack (2)}
+\begin{column}{.5\linewidth}
+\begin{figure}
+  \includegraphics[width=\linewidth]{images/graph2.png}
+  \caption{variation of d over p}
+  \label{figure 3:}
+\end{figure}
+\end{column}
+\begin{column}{.5\linewidth}
+\begin{itemize}
+    \item The maximum degree d = 1 is achieved for the equiprobable distribution (p = 0.3).
+    \vspace{2pt}
+    \item In this case d does not drop to zero because in the worst case, the attacker sees three users as possible senders with probability p = 1/3.
+\end{itemize}
+\end{column}
+\end{frame}
+
+\subsection{Crowds}
+\begin{frame}{Crowds (1)}
+    \begin{figure}
+  \includegraphics[width=.9\linewidth]{images/crowd.png}
+  \caption{Crowd with 7 jondos}
+  \label{Figure 4:}
+  \begin{itemize}
+    \begin{itemize}
+        \item The users (members of the crowd) are called jondos.
+
+
+    \end{itemize}
+  \end{itemize}
+\end{figure}
+\end{frame}
+
+\subsection{Attack}
+\begin{frame}{Crowds (2)}
+\begin{itemize}
+    \begin{itemize}
+        \item When a jondo wants to request a web page it sends the request to a second (randomly chosen) jondo.
+        \vspace{2pt}
+        \item Attacker is internal, passive , local(collaborating jondos).
+        \vspace{2pt}
+        \item Maximum Entropy  $H_M = log_2(N-C)$
+        \vspace{2pt}
+        \item From \emph{"Crowds: Anonymity for Web Transactions" by M. K. Reiter and A. D. Rubin.} we know that
+
+        \[p_{c+1} = \frac{1-p_f(N-C-1)}{N}\]
+        \[p_i = \frac{p_f}{N} \qquad  C+2\leqslant i \leqslant N\]
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Crowds (3)}
+\begin{column}{0.5\linewidth}
+\begin{figure}
+  \includegraphics[width=\linewidth]{images/graph3.png}
+  \caption{Degree of anonymity for Crowds}
+  \label{Figure 5:}
+\end{figure}
+\end{column}
+\begin{column}{0.5\linewidth}
+\begin{itemize}
+    \item  To obtain d > 0.8, we observe that for $p_f$ = 0.5 the system does not tolerate any corrupted jondo; for $p_f$ = 0.75 the system tolerates: N = 100 users, C < 12.
+    \vspace{2pt}
+    \item For the case C = N − 1 we obtain d = 0.
+    \vspace{2pt}
+    \item  $p_i$ = 1/(N-C), and the degree of anonymity will be d = 1.
+\end{itemize}
+\end{column}
+\end{frame}
+
+\subsection{Onion Routing}
+\begin{frame}{Onion Routing (1)}
+\begin{figure}
+  \includegraphics[width=.6\linewidth]{images/onion.png}
+  \caption{Example of Onion Routing}
+  \label{Figure 6:}
+  \begin{itemize}
+    \item The network consists of a number of onion routers. The path of the data is determined through onions.
+\end{itemize}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Onion Routing (2)}
+\begin{itemize}
+    \begin{itemize}
+        \item Passive , global , external attacker.
+        \vspace{4pt}
+        \item Attacker is unable to control any users.
+        \vspace{4pt}
+        \item After traffic analysis the attacker is able to discard some users. He has narrowed down the anonymity set to S.
+        \vpspace{4pt}
+        \item Maximum entropy is $H_M = log_2(N)$
+        \[p_i = \frac{1}{S} \quad i = 1 \ldots S\]
+        \[H(X) = \log_{2}{S}\]
+
+
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Onion Routing (3)}
+\begin{column}{.5\linewidth}
+\begin{figure}
+  \includegraphics[width=\linewidth]{images/graph4.png}
+  \caption{Example of Onion Routing}
+  \label{Figure 7:}
+\end{figure}
+\end{column}
+\begin{column}{.5\linewidth}
+\begin{itemize}
+    \item d increases with S, when the number of users that the attacker is able to exclude from the anonymity set decreases.
+    \vspace{2pt}
+    \item To obtain d > 0.8: for N = 5 users, we need S > 2; for N = 20 users, we need S > 11; and for N = 100 users, we need S > 39.
+\end{itemize}
+\end{column}
+\end{frame}
+
+
+\section{Extension and Alternative}
+\begin{frame}{Extension and Alternative}
+\begin{itemize}
+    \item We may get different distributions with a certain probability. Like in crowd system the message may go through a corrupted jondo with $p_1$ or not with with $p_2$ = 1-$p_1$.
+    \vspace{2pt}
+    \item If a system offers degree $d_i$ with $p_i$
+    \[d = \sum p_i . d_i\]
+    \item If a system specifies the max level of anonymity it can achieve with entropy $H_R$, then alternatively we can compare with $H_R$ instead of $H_M$.
+\end{itemize}
+\end{frame}
+
+\section {Conclusion and Future works}
+\begin{frame}{Conclusion and Future works}
+\begin{itemize}
+    \item A model to evaluate the degree of anonymity provided by a system.
+    \vspace{2pt}
+    \item Means to compare effectiveness of diffident attack models.
+    \vspace{2pt}
+    \item Future Works that can be done
+    \begin{itemize}
+        \item Find a minimum accepted value of d.
+        \item Take into consideration the prior information.
+        \item Measure the probability of a match sender - recipient rather than a message.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{References}
+\begin{itemize}
+    \begin{itemize}
+        \begin{itemize}
+             \item O. Berthold, H. Federrath and S. Ko ̈psell. Web MIXes: A System for Anonymous and Unobservable Internet Access. In Hannes Federath (Ed.), Designing Privacy Enhancing Technologies, Lecture Notes in Computer Science, LNCS 2009, pp. 115– 129, Springer-Verlag, 2001.
+             \item D. Chaum. Untraceable Electronic Mail, Return Addresses, and Digital Pseudonyms. Communications of the ACM, Vol. 24, No. 2, pp. 84-88, 1981.
+             \item T. M. Cover and J. A. Thomas. Elements of Information Theory. John Wiley & Sons, Inc., 1991. ISBN 0-471-06259-6.
+             \item W. Feller. An Introduction to Probability Theory and its Applications. John Wiley & Sons, Inc., Third edition, 1968.
+             \item M. K. Reiter and A. D. Rubin. Crowds: Anonymity for Web Transactions. Com- munications of the ACM, Vol. 42, No. 2, pp. 32-48, 1999.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{References}
+\begin{itemize}
+    \begin{itemize}
+        \begin{itemize}
+            \item M. Wright, M. Adler, B. Levine and C. Shields. An Analysis of the Degradation of Anonymous Protocols. In Proceedings of Network and Distributed System Security Symposium, February 2002.
+            \item C. E. Shannon. A Mathematical Theory Of Communication. Bell System Tech. J., 27:379–423; 623–656, 1948.
+            \item A. Serjantov and G. Danezis. Towards an Information Theoretic Metric for Anonymity. In Hannes Federath (Ed.), Designing Privacy Enhancing Technolo- gies, Lecture Notes in Computer Science, 2002.
+            \item M.G.Reed,P.F.SyversonandD.Goldschlag.AnonymousConnectionsandOnion Routing. IEEE Journal on Selected Areas in Communication. Special Issue on Copyright and Privacy Protection, 1998.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+\end{document}
